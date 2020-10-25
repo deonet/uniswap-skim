@@ -11,6 +11,15 @@ new Web3.providers.HttpProvider(
 
 const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 
+
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const dbjson=
+'C:/g/skim/public/db2.json';
+const adapter = new FileSync(dbjson)	
+const db = low(adapter)
+
+
 const getPastLogs = async (address, fromBlock, toBlock) => {
 	//console.log(fromBlock)
 	
@@ -30,6 +39,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 			updatedEvents.push(item);
 			console.log(`🦄 pair #${updatedEvents.length} deployed in block #${item.blockNumber}`);
 			latestBlock = item.blockNumber ; 
+			addNewTokenArr(item.topics);
 		});
 
 		if(latestBlock!==0){
@@ -60,13 +70,15 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 
 	console.log('npm run update \r\n')
 
+	//addToJsonFile0([]);
+
 	setTimeout(() => {
 		//console.log('updated');
 		// process.exit();
 		
 		msg();
 
-	}, 5*1000);
+	}, 60*1000);
 };
 
 function getLastBlock(arrData) {
@@ -78,6 +90,81 @@ function getLastBlock(arrData) {
 			setTimeout(() => {resolve( Number( data));}, 3*1000 );
 		});
 	});
+}
+
+async function addNewTokenArr(array) {
+	db.read()
+
+	let isposts = db.has('tokens')
+	.value();
+	console.log(isposts)
+  
+	if(!isposts){
+	  db.set('tokens', [])
+	  .write()
+	}else{
+		
+		for (let index = 0; index < array.length; index++) {
+			const element = 
+			 array[index].replace('0x000000000000000000000000','0x');
+
+			var a1= await db.get('tokens')
+			.find({ addressUniq: element })
+		   .value()  
+	   
+			 if(!a1){
+				console.log('add new')
+
+				let timestampId = new Date().valueOf();
+				db.get('tokens')
+				.push({ id: timestampId + '' + (index+1001) , 
+					title: 'lowdb is awesome' ,
+					addressUniq : element ,
+					inHits : 1 ,
+					inputDt : getDateTime() ,
+				})
+				.write()	  
+
+			 }else{
+
+				let inHits2 = 1 ;
+				if(a1.inHits){
+					inHits2 = a1.inHits+1 ;
+				}
+				console.log('update',inHits2)
+
+				db.get('tokens')
+				.find({ addressUniq: element })
+				.assign({ inHits: inHits2 })
+				.write()
+
+			 }
+	   
+
+			
+		}
+
+	}
+}
+
+function getDateTime(jamOnly='y') {
+	var date = new Date();
+	
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+    var sec  = date.getSeconds();
+	sec = (sec < 10 ? "0" : "") + sec;
+
+	if(jamOnly=='h' )return "" + hour + ":" + min + ":" + sec;
+	
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
 }
 
 async function msg() {
