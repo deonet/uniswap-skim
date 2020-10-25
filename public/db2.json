@@ -4,7 +4,7 @@
       "id": "16036401642751001",
       "title": "lowdb is awesome",
       "addressUniq": "0x0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9",
-      "inHits": 21
+      "inHits": 22
     },
     {
       "id": "16036401642751001",
@@ -260,7 +260,7 @@
       "id": "16036436202201003",
       "title": "lowdb is awesome",
       "addressUniq": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-      "inHits": 14
+      "inHits": 15
     },
     {
       "id": "16036436202281003",
@@ -381,6 +381,13 @@
       "addressUniq": "0xb1dc9124c395c1e97773ab855d66e879f053a289",
       "inHits": 1,
       "inputDt": "2020:10:26 00:31:31"
+    },
+    {
+      "id": "16036474102441002",
+      "title": "lowdb is awesome",
+      "addressUniq": "0x6b9c7a1f0d53c74343735e2d3c5d4fef24db69ed",
+      "inHits": 1,
+      "inputDt": "2020:10:26 00:36:50"
     }
   ]
 }
