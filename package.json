@@ -12,6 +12,7 @@
   "license": "Unlicense",
   "dependencies": {
     "axios": "^0.21.0",
+    "lowdb": "^1.0.0",
     "web3": "^1.3.0"
   },
   "devDependencies": {
