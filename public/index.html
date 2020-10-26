@@ -32,13 +32,17 @@ $.ajax({
 			var odd_even = false;
 		
 		
-var tbl_row_head = "";
-$.each(data['tokens'][ ((data['tokens'].length)-1) ], function(k , v) {
-	tbl_row_head += "<th>"+k+"</th>";
+var tbl_row_head = "<th> </th>";
+$.each(data['tokens'][ ((data['tokens'].length)-2) ], function(k , v) {
+	if(k=='id'){}
+	else{
+		tbl_row_head += "<th>"+k+"</th>";
+	}
 });
+tbl_row_head += "<th colspan=5> </th>";
 tbl_row_head = "<tr>" + tbl_row_head + "</tr>";
 
-for (i = 0; i < 30; i++) {
+for (i = 0; i < 25; i++) {
 	var j = ((data['tokens'].length)-1)-i;
 	var tbl_row = "";
 	
@@ -47,7 +51,8 @@ for (i = 0; i < 30; i++) {
 	tbl_row += "<td align='right' >"+ (i+1) +".</td>";
 	
 	$.each(data['tokens'][j], function(k , v) {
-		if(k=='title'){}else{
+		if(k=='id'){}
+		else{
 		tbl_row += "<td>"+v+"</td>";}
 	});
 	
