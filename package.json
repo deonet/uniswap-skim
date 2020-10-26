@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "scripts to scan all of the uniswapV2 contracts and search for mismatched balances/reserves",
   "scripts": {
-    "update": "node ./scripts/uni-markets9.js",
+    "u": "node ./scripts/uni-markets9.js",
     "skim": "node ./scripts/skim9.js",
     "test": "xo"
   },
