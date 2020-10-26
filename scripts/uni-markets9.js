@@ -1,3 +1,5 @@
+const erc20abi = require('../abi/erc20-abi.js');
+
 const Web3 = require('web3');
 const fs = require('fs');
 const events = require('../logs/eventsTpl.js');
@@ -115,10 +117,13 @@ async function addNewTokenArr(array) {
 			 if(!a1){
 				console.log('add new')
 
+				let nama = await getToken([element , 2]);
+				console.log('nama', nama )
+
 				let timestampId = new Date().valueOf();
 				db.get('tokens')
 				.push({ id: timestampId + '' + (index+1001) , 
-					title: 'lowdb is awesome' ,
+					title: nama ,
 					addressUniq : element ,
 					inHits : 1 ,
 					inputDt : getDateTime() ,
@@ -167,7 +172,21 @@ function getDateTime(jamOnly='y') {
     return year + ":" + month + ":" + day + " " + hour + ":" + min + ":" + sec;
 }
 
+async function getToken(arr){
+	const token0Add = arr[0];
+			
+	const token0contract = await new web3.eth.Contract(
+		erc20abi,
+		token0Add
+	);
+
+	const name0 =  
+		await token0contract.methods.name().call();
+		return name0 
+}
+
 async function msg() {
+
   const b = await getLastBlock([]);
 
   console.log(b);
