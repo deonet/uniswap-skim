@@ -1,3 +1,12 @@
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/mydb";
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  console.log("Database created!");
+  db.close();
+});
+
 const erc20abi = require('../abi/erc20-abi.js');
 
 const Web3 = require('web3');
@@ -83,13 +92,16 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 	}, 60*1000);
 };
 
-function getLastBlock(arrData) {
-	return new Promise(resolve => {		
+function getLastBlock(arrData){
+	return new Promise(resolve => {
+
+		
+
 		fs.readFile('./logs/lastBlock.js', 'utf8', function (err,data) {
 			if (err) {
 				return console.log(err);
 			}
-			setTimeout(() => {resolve( Number( data));}, 3*1000 );
+			setTimeout(() => {resolve( Number( data));}, 1*1000 );
 		});
 	});
 }
@@ -185,13 +197,12 @@ async function getToken(arr){
 		return name0 
 }
 
-async function msg() {
+async function msg(){
 
   const b = await getLastBlock([]);
-
   console.log(b);
 
-  getPastLogs(factoryAddress, b + 1, 'latest');
+  //getPastLogs(factoryAddress, b + 1, 'latest');
   
 }
 msg();
