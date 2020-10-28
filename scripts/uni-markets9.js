@@ -1,3 +1,4 @@
+const sleepSecond=60
 
 const erc20abi = require('../abi/erc20-abi.js');
 
@@ -41,28 +42,27 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 			updatedEvents.push(item);
 			console.log(`🦄 pair #${updatedEvents.length} deployed in block #${item.blockNumber}`);
 			latestBlock = item.blockNumber ; 
-			addNewTokenArr(item.topics);
+			let isInsert = addNewTokenArr(item.topics);
 		});
+		//console.log('.. proses 5 -- not show!')
 
 		if(latestBlock!==0){
-			console.log(latestBlock)
+			console.log('new block:',latestBlock)
 
-		fs.writeFile('./logs/events' + latestBlock + '.js', await `module.exports = ${JSON.stringify(updatedEvents)}`, error => {
-			if (error) {
-				console.log(error);
-			}
-		});
+			fs.writeFile('./logs/events' + latestBlock + '.js', await `module.exports = ${JSON.stringify(updatedEvents)}`, error => {
+				if (error) {
+					console.log(error);
+				}
+			});
 
-		fs.writeFile('./logs/lastBlock.js', latestBlock , error => {
-			if (error) {
-				console.log(error);
-			}
-		});
-		
-			console.log('updated')
+			fs.writeFile('./logs/lastBlock.js', latestBlock , error => {
+				if (error) {
+					console.log(error);
+				}
+			});		
 			
 		} else {
-			console.log('tidak ada token baru')			
+			console.log('no new token')			
 		}
 
 
@@ -70,7 +70,9 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 		console.log(error);
 	}
 
-	console.log('npm run update \r\n')
+	console.log('sleep (seconds)', sleepSecond )
+	console.log( getDateTime() )
+	console.log('npm run u \r\n\r')
 
 	//addToJsonFile0([]);
 
@@ -80,7 +82,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 		
 		msg();
 
-	}, 60*1000);
+	}, (sleepSecond)*1000);
 };
 
 function getLastBlock(arrData){
@@ -116,10 +118,10 @@ async function addNewTokenArr(array) {
 		   .value()  
 	   
 			 if(!a1){
-				console.log('add new')
+				console.log('add new T')
 
 				let nama = await getToken([element , 2]);
-				console.log('nama', nama )
+				console.log('(new) name', nama )
 
 				let timestampId = new Date().valueOf();
 				db.get('tokens')
@@ -137,7 +139,12 @@ async function addNewTokenArr(array) {
 				if(a1.inHits){
 					inHits2 = a1.inHits+1 ;
 				}
-				console.log('update',inHits2)
+				//console.log('update',inHits2)
+				if (inHits2 < 70 ) {
+					console.log('(already) name', a1.title )
+					console.log('(already) address', a1.addressUniq )
+					console.log('(already) hits', inHits2 )						 
+				 }
 
 				db.get('tokens')
 				.find({ addressUniq: element })
@@ -145,12 +152,17 @@ async function addNewTokenArr(array) {
 				.write()
 
 			 }
-	   
 
-			
+			 //console.log('.. proses 1')
+	   	
 		}
 
+		//console.log('.. proses 2')
+
 	}
+
+	console.log('.. proses 3', getDateTime() )
+
 }
 
 function getDateTime(jamOnly='y') {
@@ -189,7 +201,9 @@ async function getToken(arr){
 async function msg(){
 
   const b = await getLastBlock([]);
-  console.log(b);
+  console.log('\r\n\r')
+  console.log('begin =============>');
+  console.log('from block',b);
 
   getPastLogs(factoryAddress, b + 1, 'latest');
   
