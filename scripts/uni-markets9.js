@@ -1,11 +1,3 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/mydb";
-
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  console.log("Database created!");
-  db.close();
-});
 
 const erc20abi = require('../abi/erc20-abi.js');
 
@@ -22,11 +14,10 @@ new Web3.providers.HttpProvider(
 
 const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 
-
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
-const dbjson=
-'C:/g/skim/public/db2.json';
+const dbjson='./public/db2.json';
+// const dbjson_='C:/g/skim/public/db2.json';
 const adapter = new FileSync(dbjson)	
 const db = low(adapter)
 
@@ -93,9 +84,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 };
 
 function getLastBlock(arrData){
-	return new Promise(resolve => {
-
-		
+	return new Promise(resolve => {		
 
 		fs.readFile('./logs/lastBlock.js', 'utf8', function (err,data) {
 			if (err) {
@@ -202,7 +191,7 @@ async function msg(){
   const b = await getLastBlock([]);
   console.log(b);
 
-  //getPastLogs(factoryAddress, b + 1, 'latest');
+  getPastLogs(factoryAddress, b + 1, 'latest');
   
 }
 msg();
