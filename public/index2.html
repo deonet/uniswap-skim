@@ -19,7 +19,7 @@ $(document).ready(function(){
  
 $.ajax({ 
     type: 'GET', 
-    url: "db2.json"+"?"+(new Date().valueOf()) , 
+    url: "db2price.json"+"?"+(new Date().valueOf()) , 
     data: { get_param: 'value' }, 
     dataType: 'json',
     success: function (data) { 
@@ -29,10 +29,12 @@ $.ajax({
 		}));
 
 			var tbl_body = "";
-			var odd_even = false;
-		
+			var odd_even = false;		
 		
 var tbl_row_head = "<th> </th>";
+	tbl_row_head += "<th>USD 0</th>";
+	tbl_row_head += "<th colspan=4>USD 1</th>";
+	
 $.each(data['tokens'][ ((data['tokens'].length)-2) ], function(k , v) {
 	if(k=='id'){}
 	else{
@@ -48,7 +50,22 @@ for (i = 0; i < 25; i++) {
 	
 	// console.log(j);
 	
+	var usd1 = data['tokens'][j]['MidPriceViaETH_quote2base0'] ; 
+	var usdUpdate = data['tokens'][j]['MidPriceViaETH_quote2base1'] ; 
+	var updateDt = data['tokens'][j]['updateDt'] ; 
+	
 	tbl_row += "<td align='right' >"+ (i+1) +".</td>";
+	tbl_row += "<td  >$"+ (usd1) +"</td>";
+	tbl_row += "<td  >$"+ (usdUpdate) +"</td>";
+	tbl_row += "<td  >"+ (updateDt) +"</td>";
+	tbl_row += "<td><a target='_BLANK' href='"
+		+'https://app.uniswap.org/#/swap?inputCurrency='
+		+data['tokens'][j].addressUniq
+		+"'>app</a></td>";		
+	tbl_row += "<td><a target='_BLANK' href='"
+		+'https://info.uniswap.org/token/'
+		+data['tokens'][j].addressUniq
+		+"'>info</a></td>";
 	
 	$.each(data['tokens'][j], function(k , v) {
 		if(k=='id'){}
@@ -62,18 +79,7 @@ for (i = 0; i < 25; i++) {
 	//	selisih = ( selisih / (data['posts'][j]['balanceRaw'] ) ) * 100;
 	//}
 
-	tbl_row += "<td align='left' >"+ (selisih) +" % </td>";
-	
-	tbl_row += "<td><a target='_BLANK' href='"
-		+'https://app.uniswap.org/#/swap?inputCurrency='
-		+data['tokens'][j].addressUniq
-		+"'>app.uniswap</a></td>";
-		
-	tbl_row += "<td><a target='_BLANK' href='"
-		+'https://info.uniswap.org/token/'
-		+data['tokens'][j].addressUniq
-		+"'>info.uniswap</a></td>";
-		
+	tbl_row += "<td align='left' >"+ (selisih) +" % </td>";		
 
 	tbl_body += "<tr class=\""+( odd_even ? "odd" : "even")+"\">"+tbl_row+"</tr>";
 	odd_even = !odd_even; 	
@@ -115,7 +121,7 @@ function geocode(geocoder, callback) {
 function getModif(cb){
 	var aModified = 0;
 	var client = new XMLHttpRequest();
-	client.open("HEAD", "db2.json", true);
+	client.open("HEAD", "db2price.json", true);
 	client.onreadystatechange = function() {
 	  if(this.readyState == 2) {
 		// console.log(client.getResponseHeader("Last-Modified"));
@@ -154,7 +160,7 @@ function geocode(geocoder, callback) {
     //do geocoding here...
     
 	var client = new XMLHttpRequest();
-	client.open("HEAD", "db2.json"+"?"+(new Date().valueOf()) , true);
+	client.open("HEAD", "db2price.json"+"?"+(new Date().valueOf()) , true);
 	client.onreadystatechange = function() {
 	  if(this.readyState == 2) {
 		//console.log(client.getResponseHeader("Last-Modified"));
@@ -169,7 +175,7 @@ function geocode(geocoder, callback) {
 $('#selector').delay(1).hide('fast');
 
 	var client = new XMLHttpRequest();
-	client.open("HEAD", "db2.json"+"?"+(new Date().valueOf()) , true);
+	client.open("HEAD", "db2price.json"+"?"+(new Date().valueOf()) , true);
 	client.onreadystatechange = function() {
 	  if(this.readyState == 2) {
 		//console.log(client.getResponseHeader("Last-Modified"));
@@ -295,7 +301,14 @@ start();
 </head>
 <body>
 
-<ul>
+<style>
+ul#menu li {
+  display:inline;
+  padding-right: 20px;
+}
+</style>
+
+<ul id="menu" >
 	<li><a href="index.html">1</a>
 	<li><a href="index2.html">2</a>
 	
