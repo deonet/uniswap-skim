@@ -92,3 +92,11 @@ uniswap-skim npm run skim
 
 I take no responsibility for any use, misuse, mistakes, or funds lost or received related to the use of this code. Use, modify, ignore as you see fit. There is also a benevolent way to correct uniV2🦄 balance/reserve discrepancies by calling [`sync()`](https://github.com/Uniswap/uniswap-v2-core/blob/master/contracts/UniswapV2Pair.sol#L198-L200). 
 😈 or 😇: the choice is yours!
+
+## deon
+
+click run.cmd
+
+if error = "Cannot find module" then
+npm install web3
+npm install lowdb
