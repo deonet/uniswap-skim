@@ -95,14 +95,17 @@ I take no responsibility for any use, misuse, mistakes, or funds lost or receive
 
 ## deonet
 
+from CMD node.js
+```
+npm i --save
+```
+install node_modules from package.json
+
+
+
+
 click 
 ```
 run01.cmd
 run02.cmd = open browser http://localhost:port/index.html 
-```
-
-if error = "Cannot find module" then
-```
-npm install web3
-npm install lowdb
 ```
