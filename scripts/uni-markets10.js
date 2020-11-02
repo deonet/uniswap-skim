@@ -222,6 +222,10 @@ function getLastBlock(){
   
 	//console.log(`${ a } ${ b } ${ c }`);
 	console.log('');
+	var t = new Date();
+	t.setSeconds(t.getSeconds() + sleepSecond);
+	t.setHours(t.getHours() + 7);
+	console.log('sleep ' , t )
 	setTimeout(() => {
 		msg()	}, sleepSecond*1000 );
 
