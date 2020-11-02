@@ -1,4 +1,4 @@
-const sleepSecond=60*5
+const sleepSecond=60*3
 
 const fs = require('fs');
 
@@ -225,7 +225,7 @@ function getLastBlock(){
 	var t = new Date();
 	t.setSeconds(t.getSeconds() + sleepSecond);
 	t.setHours(t.getHours() + 7);
-	console.log('sleep ' , t )
+	console.log(t,'sleep ' )
 	setTimeout(() => {
 		msg()	}, sleepSecond*1000 );
 
