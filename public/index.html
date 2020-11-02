@@ -16,7 +16,38 @@ $(document).ready(function(){
 	text: d
   }));
  
- 
+  function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
+
+function getDateTime(UNIX_timestamp) {
+	var date = new Date(UNIX_timestamp * 1);  
+	//var date = new Date();
+	
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+    var sec  = date.getSeconds();
+	sec = (sec < 10 ? "0" : "") + sec;
+	
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+}
+  
 $.ajax({ 
     type: 'GET', 
     url: "db2.json"+"?"+(new Date().valueOf()) , 
@@ -52,6 +83,9 @@ for (i = 0; i < 25; i++) {
 	
 	$.each(data['tokens'][j], function(k , v) {
 		if(k=='id'){}
+		else if(k=='inputDt'){
+			tbl_row += "<td>"+ (getDateTime(v)) +"</td>";
+		}
 		else{
 		tbl_row += "<td>"+v+"</td>";}
 	});
