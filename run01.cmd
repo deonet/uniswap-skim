@@ -1,1 +1,1 @@
-cmd /k npm run u
+cmd /k npm run uni10
