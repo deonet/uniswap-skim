@@ -1,4 +1,4 @@
-const sleepSecond=60*3
+const sleepSecond=5*1
 
 const fs = require('fs');
 
@@ -65,7 +65,7 @@ async function getToken(arr){
 		.push( rv  )
 		.write()
 	}else{
-		console.log('already ' , arr.title )
+		console.log('already' , arr.inputDt + ' ' +  arr.title )
 	}
 
 	return name0 
@@ -101,12 +101,12 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 
 					//arr['blockNumber']=el.blockNumber
 					//var name2 = getToken(arr)
-					//console.log(name2);				
+					console.log(latestBlock);				
 					arr2[index2]=arr
 					//console.log( arr2[index2] );					
 				}
 			});
-			if (index2>=3) {
+			if (index2>=19) {
 			  break;
 			}
 			index2++
@@ -119,6 +119,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 				if (error) {
 					console.log(error);
 				}
+				console.log('lastBlock' , latestBlock );
 			});			 
 		 } 
 	
