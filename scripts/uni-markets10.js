@@ -11,6 +11,7 @@ const db = low(adapter)
 const erc20abi = require('../abi/erc20-abi.js');
 
 const Web3 = require('web3');
+const { promises } = require('dns');
 const web3 = new Web3(
 new Web3.providers.HttpProvider(
 "https://mainnet.infura.io/v3/c6807416c10d4086977491f564e48de3"
@@ -231,8 +232,55 @@ function getLastBlock(){
 		msg()	}, sleepSecond*1000 );
 
   }
+
+async function msg2(params) {
+	console.log(params)
+
+	let blockNumber1 = 0
+	const latest = await web3.eth.getBlockNumber()
+
+	let fromBlock = latest - 100 ; // 11188003
+	let toBlock = 'latest' 
+	let address = params.address1
+	//console.log(address)
+	
+	blockNumber1 = await web3.eth.getPastLogs({
+		fromBlock,
+		toBlock,
+		address
+	}, function(error, result){		
+		if(!error){
+			//console.log('a', (result.length) )
+			//console.log( result[result.length-1] )
+			//return promises [result.length - 1 ]
+		}
+		else{
+			//console.error(error);
+		}
+
+	})
+	
+	let blockNumber2 = 
+	blockNumber1[blockNumber1.length-1].blockNumber ;
+
+	console.log( blockNumber2 ,'' )
+
+	fs.writeFile('./logs/lastBlock.js', 
+	(fromBlock) , error => {
+		if (error) {
+			console.log(error);
+		}
+	});
+
+}
   
-  msg(); // 🤡 lurks in the shadows <-- after 1 second
+msg2({
+	address1:factoryAddress,
+})
+
+msg(); // 🤡 lurks in the shadows <-- after 1 second
+
+
 
   function timeConverter(UNIX_timestamp){
 	var a = new Date(UNIX_timestamp * 1000);
