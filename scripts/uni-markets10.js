@@ -1,4 +1,4 @@
-const sleepSecond=5*1
+const sleepSecond=60*1
 
 const fs = require('fs');
 
