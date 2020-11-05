@@ -86,7 +86,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 
 		//const updatedEvents = [...events];
 
-		console.log(response.length ) ;
+		//console.log(response.length ) ;
 		for (let el of response) {
 			//console.log(el);
 			el.topics.forEach(element => {
