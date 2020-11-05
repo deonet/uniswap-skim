@@ -18,12 +18,12 @@ new Web3.providers.HttpProvider(
 ));
 const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 
-let ignoreArr=[]
-var index3 = ignoreArr.length
+let ignoreArr=[] ;
+var index3 = ignoreArr.length ;
 ignoreArr[index3++]=
-'0x0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9'
+'0x0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9' ;
 ignoreArr[index3++]=
-'0x000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+'0x000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ;
 
 //console.log(ignoreArr)
 
@@ -45,7 +45,7 @@ async function getToken(arr){
 
 	const name0 =  await token0contract.methods.name().call();
 	//console.log(name0)
-	arr['title'] =  name0
+	arr['title'] =  name0 ;
 	arr['inputDt'] = new Date().valueOf();
 
 	var rv = {};
