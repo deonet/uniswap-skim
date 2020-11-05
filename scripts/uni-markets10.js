@@ -120,7 +120,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 				if (error) {
 					console.log(error);
 				}
-				console.log('lastBlock' , latestBlock );
+				console.log('writeFile' , latestBlock );
 			});			 
 		 } 
 	
@@ -238,8 +238,9 @@ async function msg2(params) {
 
 	let blockNumber1 = 0
 	const latest = await web3.eth.getBlockNumber()
+	console.log(latest,'latest')
 
-	let fromBlock = latest - 100 ; // 11188003
+	let fromBlock = latest - 200 ; // 11188003
 	let toBlock = 'latest' 
 	let address = params.address1
 	//console.log(address)
@@ -264,7 +265,7 @@ async function msg2(params) {
 	blockNumber1[blockNumber1.length-1].blockNumber ;
 
 	//console.log( blockNumber2 ,'' )
-	console.log( fromBlock ,'fromBlock' )
+	console.log( fromBlock ,'fromBlock / writeFile ' )
 
 	fs.writeFile('./logs/lastBlock.js', 
 	(fromBlock.toString) , error => {
