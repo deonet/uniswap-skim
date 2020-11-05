@@ -1,12 +1,12 @@
-const sleepSecond=60*1
+const sleepSecond=60*1;
 
 const fs = require('fs');
 
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 const dbjson='./public/db2.json';
-const adapter = new FileSync(dbjson)	
-const db = low(adapter)
+const adapter = new FileSync(dbjson)	;
+const db = low(adapter);
 
 const erc20abi = require('../abi/erc20-abi.js');
 
@@ -54,28 +54,28 @@ async function getToken(arr){
 		// do something with obj[key]
 	});
 
-	db.read()
+	db.read();
 
 	var a1= await db.get('tokens')
 	.find({ addressUniq: token0Add })
-	.value()  
+	.value()  ;
 
 	if (!a1) {
-		console.log(arr)		
+		console.log(arr)		;
 		db.get('tokens')
 		.push( rv  )
-		.write()
+		.write();
 	}else{
-		console.log('already' , arr.inputDt + ' ' +  arr.title )
+		console.log('already tgl' , arr.inputDt + ' ' +  arr.title );
 	}
 
-	return name0 
+	return name0 ;
 }
 
 const getPastLogs = async (address, fromBlock, toBlock) => {
-	let index2 = 0
-	let arr2=[]
-	let latestBlock = 0
+	let index2 = 0 ;
+	let arr2=[] ;
+	let latestBlock = 0 ;
 					
 	try {
 		const response = await web3.eth.getPastLogs({
@@ -86,15 +86,15 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 
 		//const updatedEvents = [...events];
 
-		console.log(response.length )
+		console.log(response.length ) ;
 		for (let el of response) {
 			//console.log(el);
 			el.topics.forEach(element => {
 				if(ignoreArr.indexOf(element) !== -1){
 					//console.log(1);				
 				} else{
-					let arr=[]
-					latestBlock = el.blockNumber
+					let arr=[] ;
+					latestBlock = el.blockNumber ;
 					//console.log(element);				
 					//console.log(el.blockNumber);
 					arr['addressUniq']=
@@ -103,14 +103,14 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 					//arr['blockNumber']=el.blockNumber
 					//var name2 = getToken(arr)
 					console.log(latestBlock);				
-					arr2[index2]=arr
+					arr2[index2]=arr ;
 					//console.log( arr2[index2] );					
 				}
 			});
 			if (index2>=19) {
 			  break;
 			}
-			index2++
+			index2++ ;
 		  }
 		  console.log(' ');
 		  
@@ -122,8 +122,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 				}
 				console.log('writeFile' , latestBlock );
 			});			 
-		 } 
-	
+		 } 	
 
 		//response.forEach(item => {
 			//updatedEvents.push(item);
@@ -146,7 +145,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 		//process.exit();
 	//}, 2000);
 
-	return arr2
+	return arr2 ;
 
 };
 
@@ -155,17 +154,17 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 async function who(array) {
 	//console.log(array)
 
-	let length1 = array.length
+	let length1 = array.length ;
 
-	let e2
+	let e2 ;
 
 	for (let index = 0; index < length1; index++) {
 		const element = array[index];
 		//console.log(element[0])
 		e2 = await getToken(
 			element
-		)
-		element.title = e2
+		) ;
+		element.title = e2 ;
 		//console.log(element)
 	}
 
@@ -217,9 +216,9 @@ function getLastBlock(){
 
 	const a = await who(retval1);
 	const b = await what();
-	let d=[]
-	d.what = b
-	d.who = a
+	let d=[] ;
+	d.what = b ;
+	d.who = a ;
 	const c = await where(d);
   
 	//console.log(`${ a } ${ b } ${ c }`);
@@ -227,22 +226,22 @@ function getLastBlock(){
 	var t = new Date();
 	t.setSeconds(t.getSeconds() + sleepSecond);
 	t.setHours(t.getHours() + 7);
-	console.log(t,'sleep ' )
+	console.log(t,'sleep ' ) ;
 	setTimeout(() => {
-		msg()	}, sleepSecond*1000 );
+		msg() ;	}, sleepSecond*1000 );
 
   }
 
 async function msg2(params) {
-	console.log(params)
+	console.log(params) ;
 
-	let blockNumber1 = 0
-	const latest = await web3.eth.getBlockNumber()
-	console.log(latest,'latest')
+	let blockNumber1 = 0 ;
+	const latest = await web3.eth.getBlockNumber() ;
+	console.log(latest,'latest') ;
 
 	let fromBlock = latest - 200 ; // 11188003
-	let toBlock = 'latest' 
-	let address = params.address1
+	let toBlock = 'latest'  ;
+	let address = params.address1 ;
 	//console.log(address)
 	
 	blockNumber1 = await web3.eth.getPastLogs({
@@ -265,7 +264,7 @@ async function msg2(params) {
 	blockNumber1[blockNumber1.length-1].blockNumber ;
 
 	//console.log( blockNumber2 ,'' )
-	console.log( fromBlock ,'fromBlock / writeFile ' )
+	console.log( fromBlock ,'fromBlock / writeFile ' ) ;
 
 	fs.writeFile('./logs/lastBlock.js', 
 	(fromBlock.toString) , error => {
@@ -278,7 +277,7 @@ async function msg2(params) {
   
 msg2({
 	address1:factoryAddress,
-})
+}) ;
 
 msg(); // 🤡 lurks in the shadows <-- after 1 second
 
