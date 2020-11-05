@@ -86,7 +86,8 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 
 		//const updatedEvents = [...events];
 
-		//console.log(response.length ) ;
+		console.log(response.length,'found new token' ) ;
+		
 		for (let el of response) {
 			//console.log(el);
 			el.topics.forEach(element => {
