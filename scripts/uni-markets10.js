@@ -116,7 +116,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 		  
 		 if (latestBlock !== 0) {
 			fs.writeFile('./logs/lastBlock.js', 
-			(latestBlock.toString) , error => {
+			(latestBlock.toString()) , error => {
 				if (error) {
 					console.log(error);
 				}
@@ -206,9 +206,11 @@ function getLastBlock(){
 
   async function msg() {
 
+	console.log('await getLastBlock');
 	let lastBlock = await getLastBlock();
 	//lastBlock = Number (lastBlock)
 	//console.log(`${ lastBlock } `);
+	console.log(lastBlock,'begin cek from this block to latest');
 
 	let retval1 = await getPastLogs(factoryAddress, 
 		(lastBlock+1)  , 
@@ -267,7 +269,7 @@ async function msg2(params) {
 	console.log( fromBlock ,'fromBlock / writeFile ' ) ;
 
 	fs.writeFile('./logs/lastBlock.js', 
-	(fromBlock.toString) , error => {
+	(fromBlock.toString()) , error => {
 		if (error) {
 			console.log(error);
 		}
