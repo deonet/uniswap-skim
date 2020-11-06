@@ -1,6 +1,20 @@
-const sleepSecond=60*1;
-
 const fs = require('fs');
+/**
+{ 
+"projectId":"c6807416c10d4086977491f564e48de3",
+    "name": "Sara",
+    "age": 17,
+    "gender": "Male",
+    "department": "History",
+    "car": "Ducati"
+}
+*/
+let student=JSON.parse(fs.readFileSync(
+'C:/data2/secret3.txt'));
+//console.log(student);
+const projectId = student.projectId;
+
+const sleepSecond=60*1;
 
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
@@ -14,7 +28,7 @@ const Web3 = require('web3');
 const { promises } = require('dns');
 const web3 = new Web3(
 new Web3.providers.HttpProvider(
-"https://mainnet.infura.io/v3/c6807416c10d4086977491f564e48de3"
+"https://mainnet.infura.io/v3/" + (projectId) + ""
 ));
 const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 
@@ -26,7 +40,7 @@ ignoreArr[index3++]=
 '0x000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ;
 
 //console.log(ignoreArr)
-
+  
 async function getToken(arr){
 	//console.log(arr)
 	
