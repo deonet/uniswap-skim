@@ -60,7 +60,7 @@ async function getToken(arr){
 	const name0 =  await token0contract.methods.name().call();
 	//console.log(name0)
 	arr['title'] =  name0 ;
-	let wib = new Date();wib.setHours(wib.getHours()+7);
+	let wib = new Date();wib.setHours(wib.getHours() + (7) );
 	arr['inputDt'] = wib.valueOf();
 	arr['inputDt2'] = wib;	
 
