@@ -1,11 +1,7 @@
 const fs = require('fs');
 /**
-{ 
-"projectId":"c6807416c10d4086977491f564e48de3",
-    "name": "Sara",
-    "age": 17,
-    "gender": "Male",
-    "department": "History",
+{
+	"projectId":"c6807416c10d4086977491f564e48de3",
     "car": "Ducati"
 }
 */
@@ -41,14 +37,12 @@ ignoreArr[index3++]=
 
 //console.log(ignoreArr)
   
-async function getToken(arr){
-	
+async function getToken(arr){	
 	let token0Add = arr['addressUniq'];
 	/**
 	 * 
 	token0Add = token0Add.replace('0x000000000000000000000000','0x');
 	 */
-
 	//token0Add = '0x5feda2ee8bec482279c1b3b5c3c162d5eb259e13'
 			
 	const token0contract = await new web3.eth.Contract(
@@ -65,6 +59,8 @@ async function getToken(arr){
 	let wib = new Date();wib.setHours(wib.getHours() + (7) );
 	arr['inputDt'] = wib.valueOf();
 	arr['inputDt2'] = wib;	
+	arr['inputDt5'] = new Date();
+	arr['inputDt6'] = new Date().valueOf();
 
 	console.log(arr);
 	var rv = {};
@@ -116,16 +112,9 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 				} else{
 					let arr=[] ;
 					latestBlock = el.blockNumber ;
-					//console.log(element);				
-					//console.log(el.blockNumber);
-					arr['addressUniq']=
-					element.replace('0x000000000000000000000000','0x');
+					arr['addressUniq']=element.replace( '0x000000000000000000000000','0x');
 
-					//arr['blockNumber']=el.blockNumber
-					//var name2 = getToken(arr)
-					//console.log(latestBlock);				
 					arr2[index2]=arr ;
-					//console.log( arr2[index2] );					
 				}
 			});
 			if (index2>=10) {
@@ -133,7 +122,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 			}
 			index2++ ;
 		  }
-		  console.log(' ');
+		  console.log('end response');
 		  
 		 if (latestBlock !== 0) {
 			fs.writeFile('./logs/lastBlock.js', 
@@ -145,29 +134,11 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 			});			 
 		 } 	
 
-		//response.forEach(item => {
-			//updatedEvents.push(item);
-			//console.log(`🦄 pair #${updatedEvents.length} deployed in block #${item.blockNumber}`);
-			//console.log( item.blockNumber )
-		//});
-
-		//fs.writeFile('./logs/events.js', await `module.exports = ${JSON.stringify(updatedEvents)}`, error => {
-		//	if (error) {
-		//		console.log(error);
-		//	}
-		//});
-
 	} catch (error) {
 		console.log(error);
 	}
 
-	//setTimeout(() => {
-	//	console.log('updated');
-		//process.exit();
-	//}, 2000);
-
 	return arr2 ;
-
 };
 
 //getPastLogs(factoryAddress, events[events.length - 1].blockNumber + 1, 'latest');
@@ -181,12 +152,8 @@ async function who(array) {
 
 	for (let index = 0; index < length1; index++) {
 		const element = array[index];
-		//console.log(element[0])
-		e2 = await getToken(
-			element
-		) ;
+		e2 = await getToken(element);
 		//element.title = e2 ;
-		//console.log(element)
 	}
 
 	return new Promise(resolve => {
@@ -227,15 +194,17 @@ function getLastBlock(){
 
   async function msg() {
 
-	console.log('await getLastBlock');
+	//console.log('await getLastBlock');
 	let lastBlock = await getLastBlock();
 	//lastBlock = Number (lastBlock)
 	//console.log(`${ lastBlock } `);
-	console.log(lastBlock,'begin cek from this block to latest');
+	console.log(lastBlock,'begin cek from <= this block to latest');
 
 	let retval1 = await getPastLogs(factoryAddress, 
 		(lastBlock+1)  , 
 		'latest');
+
+	// retval1 is array
 
 	const a = await who(retval1);
 	const b = await what();
@@ -256,54 +225,46 @@ function getLastBlock(){
   }
 
 async function msg2(params) {
+	// params is object
 	//console.log(params) ;
 
 	let blockNumber1 = 0 ;
 	const latest = await web3.eth.getBlockNumber() ;
-	console.log(latest,'getBlockNumber') ;
+	console.log(latest,'latest getBlockNumber') ;
 
-	let fromBlock = latest - 500 ; // 11188003
+	let fromBlock = latest - 500 ; // 11188003	
+	/**	
 	let toBlock = 'latest'  ;
 	let address = params.address1 ;
 	//console.log(address)
-	
 	blockNumber1 = await web3.eth.getPastLogs({
 		fromBlock,
 		toBlock,
 		address
 	}, function(error, result){		
 		if(!error){
-			//console.log('a', (result.length) )
-			//console.log( result[result.length-1] )
-			//return promises [result.length - 1 ]
 		}
 		else{
-			//console.error(error);
 		}
-	})
-	
-	let blockNumber2 = 
-	blockNumber1[blockNumber1.length-1].blockNumber ;
-
+	});	
+	//let blockNumber2=blockNumber1[blockNumber1.length-1].blockNumber ;
 	//console.log( blockNumber2 ,'' )
-	console.log( fromBlock ,'fromBlock / writeFile ' ) ;
-
+	 * 
+	 */
+	
+	console.log( fromBlock ,'fromBlock / writeFile') ;
 	fs.writeFile('./logs/lastBlock.js', 
 	(fromBlock.toString()) , error => {
 		if (error) {
 			console.log(error);
 		}
 	});
-
 }
   
 msg2({
 	address1:factoryAddress,
 }) ;
-
 msg(); // 🤡 lurks in the shadows <-- after 1 second
-
-
 
   function timeConverter(UNIX_timestamp){
 	var a = new Date(UNIX_timestamp * 1000);
