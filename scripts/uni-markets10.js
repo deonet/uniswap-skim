@@ -42,7 +42,7 @@ ignoreArr[index3++]=
 //console.log(ignoreArr)
   
 async function getToken(arr){
-	//console.log(arr)
+	console.log(arr);
 	
 	let token0Add = arr['addressUniq'];
 	/**
@@ -69,6 +69,7 @@ async function getToken(arr){
 		rv[key] = arr[key];
 		// do something with obj[key]
 	});
+	console.log(rv);	
 
 	db.read();
 
