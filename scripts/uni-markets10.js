@@ -81,10 +81,10 @@ async function getToken(arr){
 	.value()  ;
 
 	if (!a1) {
-		console.log( token0Add , rv.title) ;
-		db.get('tokens')
+		await db.get('tokens')
 		.push( rv  )
 		.write();
+		console.log( token0Add , rv.title) ;
 	}else{
 		console.log('already @ ' , a1.inputDt2 + ' ' +  a1.title );
 	}
@@ -185,7 +185,7 @@ async function who(array) {
 		e2 = await getToken(
 			element
 		) ;
-		element.title = e2 ;
+		//element.title = e2 ;
 		//console.log(element)
 	}
 
