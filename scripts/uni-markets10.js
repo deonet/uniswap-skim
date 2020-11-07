@@ -60,7 +60,9 @@ async function getToken(arr){
 	const name0 =  await token0contract.methods.name().call();
 	//console.log(name0)
 	arr['title'] =  name0 ;
-	arr['inputDt'] = new Date().valueOf();
+	let wib = new Date();wib.setHours(wib.getHours()+7);
+	arr['inputDt'] = wib.valueOf();
+	arr['inputDt2'] = wib;	
 
 	var rv = {};
 	Object.keys(arr).forEach(function (key) {
@@ -75,12 +77,12 @@ async function getToken(arr){
 	.value()  ;
 
 	if (!a1) {
-		console.log(arr)		;
+		console.log( token0Add , rv.title) ;
 		db.get('tokens')
 		.push( rv  )
 		.write();
 	}else{
-		console.log('already tgl' , arr.inputDt + ' ' +  arr.title );
+		console.log('already @ ' , a1.inputDt2 + ' ' +  a1.title );
 	}
 
 	return name0 ;
@@ -117,7 +119,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 
 					//arr['blockNumber']=el.blockNumber
 					//var name2 = getToken(arr)
-					console.log(latestBlock);				
+					//console.log(latestBlock);				
 					arr2[index2]=arr ;
 					//console.log( arr2[index2] );					
 				}
@@ -250,13 +252,13 @@ function getLastBlock(){
   }
 
 async function msg2(params) {
-	console.log(params) ;
+	//console.log(params) ;
 
 	let blockNumber1 = 0 ;
 	const latest = await web3.eth.getBlockNumber() ;
-	console.log(latest,'latest') ;
+	console.log(latest,'getBlockNumber') ;
 
-	let fromBlock = latest - 200 ; // 11188003
+	let fromBlock = latest - 500 ; // 11188003
 	let toBlock = 'latest'  ;
 	let address = params.address1 ;
 	//console.log(address)
@@ -274,7 +276,6 @@ async function msg2(params) {
 		else{
 			//console.error(error);
 		}
-
 	})
 	
 	let blockNumber2 = 
@@ -312,4 +313,4 @@ msg(); // 🤡 lurks in the shadows <-- after 1 second
 	var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
 	return time;
   }
-  console.log(timeConverter(0));
+//  console.log(timeConverter(0));
