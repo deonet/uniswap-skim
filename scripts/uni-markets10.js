@@ -128,7 +128,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 					//console.log( arr2[index2] );					
 				}
 			});
-			if (index2>=19) {
+			if (index2>=10) {
 			  break;
 			}
 			index2++ ;
