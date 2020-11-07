@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+var url_string = window.location.href ; //window.location.href
+var url = new URL(url_string);
+var db = url.searchParams.get("db");
+var posts = url.searchParams.get("posts");
+console.log(posts);
+
+
+	var d = new Date();
+  var n = d.getTime();
+  // document.getElementById("demo").innerHTML = d;
+  $('#body2').append($('<div>', {
+	text: d
+  }));
+ 
+  function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return time;
+}
+
+function getDateTime(UNIX_timestamp) {
+	var date = new Date(UNIX_timestamp * 1);  
+	//var date = new Date();
+	
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+    var sec  = date.getSeconds();
+	sec = (sec < 10 ? "0" : "") + sec;
+	
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+    return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+}
+
+function getHour2(UNIX_timestamp) {
+	var date = new Date(UNIX_timestamp * 1);  
+	//var date = new Date();	
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;	
+    return hour + ":" + min;
+}
+  
+$.ajax({ 
+    type: 'GET', 
+    url:  db +"?"+(new Date().valueOf()) , 
+    data: { get_param: 'value' }, 
+    dataType: 'json',
+    success: function (data) { 
+		//alert(1);
+		$('#body2').append($('<strong>', {
+			text: data[posts].length
+		}));
+
+			var tbl_body = "";
+			var odd_even = false;
+		
+		
+var tbl_row_head = "<th> </th>";
+$.each(data[posts][ ((data[posts].length)-2) ], function(k , v) {
+	if(k=='id'){}
+	else{
+		tbl_row_head += "<th>"+k+"</th>";
+	}
+});
+tbl_row_head += "<th colspan=5> </th>";
+tbl_row_head = "<tr>" + tbl_row_head + "</tr>";
+
+var count2 = (data[posts].length < 25) ? data[posts].length : 25 ;
+
+for (i = 0; i < count2; i++) {
+	var j = ((data[posts].length)-1)-i;
+	var tbl_row = "";
+	
+	// console.log(j);
+	
+	tbl_row += "<td align='right' >"+ (i+1) +".</td>";
+	
+	$.each(data[posts][j], function(k , v) {
+		if(k=='id'){}
+		else if(k=='inputDt'){
+			tbl_row += "<td>"+ (getDateTime(v)) +"</td>";
+		}
+		else if(k=='inputDt6'){
+			tbl_row += "<td>"+ (getHour2(v)) +"</td>";
+		}
+		else{
+		tbl_row += "<td>"+v+"</td>";}
+	});
+	
+	var selisih = 0;
+	
+	tbl_row += "<td><a target='_BLANK' href='"
+		+'https://app.uniswap.org/#/swap?inputCurrency='
+		+data[posts][j].addressUniq
+		+"'>APP</a></td>";
+		
+	tbl_row += "<td><a target='_BLANK' href='"
+		+'https://info.uniswap.org/token/'
+		+data[posts][j].addressUniq
+		+"'>INFO</a></td>";
+		
+
+	tbl_body += "<tr class=\""+( odd_even ? "odd" : "even")+"\">"+tbl_row+"</tr>";
+	odd_even = !odd_even; 	
+				
+	// text += cars[i] + "<br>";
+	$('#body2').append($('<div>', {
+		// text: data[posts][j].inputDt
+	}));	
+}		
+
+$("#customers thead").html(tbl_row_head);			
+$("#customers tbody").html(tbl_body);			
+
+	
+        $.each(data[posts], function(index, element) {
+            $('#body2').append($('<div>', {
+                // text: element.id
+            }));
+        });
+    }
+});
+	
+  $("p").click(function(){
+    // $(this).hide();
+  });
+ 
+setTimeout(function() {
+	
+  location.reload();
+}, (1000 * (60*60)) );
+  
+});
+
+
+function geocode(geocoder, callback) {
+	callback(results);
+}
+
+function getModif(cb){
+	var aModified = 0;
+	var client = new XMLHttpRequest();
+	client.open("HEAD", "db2.json", true);
+	client.onreadystatechange = function() {
+	  if(this.readyState == 2) {
+		// console.log(client.getResponseHeader("Last-Modified"));
+		aModified = client.getResponseHeader("Last-Modified");
+		cb(aModified);
+	  }
+	}
+	client.send();
+	
+	console.log(aModified);	
+	
+	cb(aModified);
+
+	// return aModified;
+}
+
+function initialize(modi) {
+    //Geocode Address to obtin Lat and Long coordinates for the starting point of our map
+    geocoder = new Date();
+    geocode(geocoder, function(results) {
+		if(results!==modi){
+			$('#selector').delay(1).fadeIn('fast');
+			setTimeout(function(){
+				location.reload();
+			},(1000*10));
+		}
+		//console.log(results);
+		
+		setTimeout(function() {
+			initialize(results)
+		}, (100 *  10) );
+		
+    });
+}
+function geocode(geocoder, callback) {
+    //do geocoding here...
+    
+	var client = new XMLHttpRequest();
+	client.open("HEAD", "db2.json"+"?"+(new Date().valueOf()) , true);
+	client.onreadystatechange = function() {
+	  if(this.readyState == 2) {
+		//console.log(client.getResponseHeader("Last-Modified"));
+		aModified = client.getResponseHeader("Last-Modified");
+		callback(aModified);
+	  }
+	}
+	client.send();
+
+}
+
+$('#selector').delay(1).hide('fast');
+
+	var client = new XMLHttpRequest();
+	client.open("HEAD", "db2.json"+"?"+(new Date().valueOf()) , true);
+	client.onreadystatechange = function() {
+	  if(this.readyState == 2) {
+		//console.log(client.getResponseHeader("Last-Modified"));
+		aModified = client.getResponseHeader("Last-Modified");
+		initialize(aModified);
+	  }
+	}
+	client.send();
+
+
+
+
+// Set population limit of aquarium to 10
+const popLimit = 2;
+// Start off with 0 fish
+let fish = 0;
+// Initiate while loop to run until fish reaches population limit
+while (fish < popLimit) {
+    // add one fish for each iteration
+    fish++;
+    //console.log("There's room for " + (popLimit - fish) + " more fish.");
+}
+
+
+
+
+var timeBegan = null
+    , timeStopped = null
+    , stoppedDuration = 0
+    , started = null;
+
+function start() {
+    if (timeBegan === null) {
+        timeBegan = new Date();
+    }
+
+    if (timeStopped !== null) {
+        stoppedDuration += (new Date() - timeStopped);
+    }
+    console.log(stoppedDuration);
+
+    started = setInterval(clockRunning, 10);	
+}
+
+function stop() {
+    timeStopped = new Date();
+    clearInterval(started);
+}
+ 
+function reset() {
+    clearInterval(started);
+    stoppedDuration = 0;
+    timeBegan = null;
+    timeStopped = null;
+    document.getElementById("display-area").innerHTML = "00:00:00.000";
+}
+
+function clockRunning(){
+    var currentTime = new Date()
+        , timeElapsed = new Date(currentTime - timeBegan - stoppedDuration)
+        , hour = timeElapsed.getUTCHours()
+        , min = timeElapsed.getUTCMinutes()
+        , sec = timeElapsed.getUTCSeconds()
+        , ms = timeElapsed.getUTCMilliseconds();
+
+    document.getElementById("display-area").innerHTML = 
+        (hour > 9 ? hour : "0" + hour) + ":" + 
+        (min > 9 ? min : "0" + min) + ":" + 
+        (sec > 9 ? sec : "0" + sec) + "." + 
+        (ms > 99 ? ms : ms > 9 ? "0" + ms : "00" + ms);
+};
+start();
+
+
+
+</script>
+
+
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 0.5s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+#customers {
+	font-size:90%;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+ul.menu li {
+  display:inline;
+}
+</style>
+
+</head>
+<body>
+<table border='1'>
+<tr>
+<td> <div id='body2'></div>
+<td> <output id="display-area">00:00:00.000</output>	
+<td>
+<ul class="menu">
+	<li><a href="index.html">1</a>
+	<li><a href="index2.html">2</a>	
+	<li><a href="index3.html?a=1&b=3&db=dbBuy2.json&posts=posts&c=m2-m3-m4-m5">3</a>	
+	<li><a href="index3.html?a=1&b=3&db=db2.json&posts=tokens&c=m2-m3-m4-m5">5</a>	
+	</li>
+</ul>
+
+</tr>
+</table>
+
+<div id='selector' style="display:none;position:fixed;left:100px;top:160px;" class="loader"></div>
+
+<table id="customers"><thead></thead><tbody></tbody></table>
+		
+        <!-- div syle=''>
+            <button id="toggle-button" onClick="start()">Start</button>
+            <button id="toggle-button" onClick="stop()">Stop</button>
+            <button id="reset-button" onClick="reset()">Reset</button>
+        </div -->
+
+<!-- 
+
+<p>If you click on me, I will disappear.</p>
+<p>Click me away!</p>
+<p>Click me too!</p>
+
+-->
+
+</body>
+</html>
