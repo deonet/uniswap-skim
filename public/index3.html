@@ -7,7 +7,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-$(document).ready(function(){
 
 var url_string = window.location.href ; //window.location.href
 var url = new URL(url_string);
@@ -15,6 +14,7 @@ var db = url.searchParams.get("db");
 var posts = url.searchParams.get("posts");
 console.log(posts);
 
+$(document).ready(function(){
 
 	var d = new Date();
   var n = d.getTime();
@@ -105,7 +105,7 @@ for (i = 0; i < count2; i++) {
 		else if(k=='inputDt'){
 			tbl_row += "<td>"+ (getDateTime(v)) +"</td>";
 		}
-		else if(k=='inputDt6'){
+		else if(k=='inputDtUnix'){
 			tbl_row += "<td>"+ (getHour2(v)) +"</td>";
 		}
 		else{
@@ -161,7 +161,6 @@ setTimeout(function() {
 function geocode(geocoder, callback) {
 	callback(results);
 }
-
 function getModif(cb){
 	var aModified = 0;
 	var client = new XMLHttpRequest();
@@ -173,38 +172,16 @@ function getModif(cb){
 		cb(aModified);
 	  }
 	}
-	client.send();
-	
-	console.log(aModified);	
-	
+	client.send();	
+	console.log(aModified);		
 	cb(aModified);
-
 	// return aModified;
 }
-
-function initialize(modi) {
-    //Geocode Address to obtin Lat and Long coordinates for the starting point of our map
-    geocoder = new Date();
-    geocode(geocoder, function(results) {
-		if(results!==modi){
-			$('#selector').delay(1).fadeIn('fast');
-			setTimeout(function(){
-				location.reload();
-			},(1000*10));
-		}
-		//console.log(results);
-		
-		setTimeout(function() {
-			initialize(results)
-		}, (100 *  10) );
-		
-    });
-}
-function geocode(geocoder, callback) {
-    //do geocoding here...
-    
+function geocode(db, geocoder, callback) {
+	//console.log(db);		
+    //do geocoding here...   
 	var client = new XMLHttpRequest();
-	client.open("HEAD", "db2.json"+"?"+(new Date().valueOf()) , true);
+	client.open("HEAD",  db +"?"+(new Date().valueOf()) , true);
 	client.onreadystatechange = function() {
 	  if(this.readyState == 2) {
 		//console.log(client.getResponseHeader("Last-Modified"));
@@ -213,23 +190,39 @@ function geocode(geocoder, callback) {
 	  }
 	}
 	client.send();
-
+}
+function initialize(modi,db) {
+    //Geocode Address to obtin Lat and Long coordinates for the starting point of our map
+    geocoder = new Date();
+    geocode(db,geocoder, function(results) {
+		if(results!==modi){
+			$('#selector').delay(1).fadeIn('fast');
+			setTimeout(function(){
+				location.reload();
+			},(1000*10));
+		}
+		//console.log(results);		
+		setTimeout(function() {
+			initialize(results,db)
+		}, (100 *  10) );		
+    });
 }
 
 $('#selector').delay(1).hide('fast');
 
-	var client = new XMLHttpRequest();
-	client.open("HEAD", "db2.json"+"?"+(new Date().valueOf()) , true);
-	client.onreadystatechange = function() {
-	  if(this.readyState == 2) {
-		//console.log(client.getResponseHeader("Last-Modified"));
-		aModified = client.getResponseHeader("Last-Modified");
-		initialize(aModified);
-	  }
-	}
-	client.send();
-
-
+// loop this forever
+var client = new XMLHttpRequest();
+client.open("HEAD", db +"?"+(new Date().valueOf()) , true);
+	//console.log(db);
+client.onreadystatechange = function() {
+	//console.log(db);
+  if(this.readyState == 2) {
+	console.log(client.getResponseHeader("Last-Modified"));
+	aModified = client.getResponseHeader("Last-Modified");
+	initialize(aModified,db);
+  }
+}
+client.send();
 
 
 // Set population limit of aquarium to 10
