@@ -59,8 +59,8 @@ async function getToken(arr){
 	let wib = new Date();wib.setHours(wib.getHours() + (7) );
 	arr['inputDt'] = wib.valueOf();
 	arr['inputDt2'] = wib;	
-	arr['inputDt5'] = new Date();
-	arr['inputDt6'] = new Date().valueOf();
+	arr['inputDt3'] = new Date();
+	arr['inputDtUnix'] = new Date().valueOf();
 
 	console.log(arr);
 	var rv = {};
