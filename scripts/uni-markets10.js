@@ -85,7 +85,7 @@ async function getToken(arr){
 		.write();
 		console.log( token0Add , name0) ;
 	}else{
-		console.log('already @ ' , a1.inputDt2 + ' ' +  a1.title );
+		console.log('already',a1.addressUniq,a1.title);
 	}
 
 	return name0 ;
@@ -116,7 +116,6 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 					let arr=[] ;
 					latestBlock = el.blockNumber ;
 					arr['addressUniq']=element.replace( '0x000000000000000000000000','0x');
-
 					arr2[index2]=arr ;
 				}
 			});
@@ -125,7 +124,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 			}
 			index2++ ;
 		  }
-		  console.log('end response');
+		  console.log('finish response');
 		  
 		 if (latestBlock !== 0) {
 			fs.writeFile('./logs/lastBlock.js', 
@@ -158,6 +157,7 @@ async function who(array) {
 		e2 = await getToken(element);
 		//element.title = e2 ;
 	}
+	console.log('finish get name');
 
 	return new Promise(resolve => {
 	  setTimeout(() => {
