@@ -47,6 +47,16 @@ function getDateTime(UNIX_timestamp) {
     day = (day < 10 ? "0" : "") + day;
     return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
 }
+
+function getHour2(UNIX_timestamp) {
+	var date = new Date(UNIX_timestamp * 1);  
+	//var date = new Date();	
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;	
+    return hour + ":" + min;
+}
   
 $.ajax({ 
     type: 'GET', 
@@ -73,7 +83,7 @@ $.each(data['tokens'][ ((data['tokens'].length)-2) ], function(k , v) {
 tbl_row_head += "<th colspan=5> </th>";
 tbl_row_head = "<tr>" + tbl_row_head + "</tr>";
 
-for (i = 0; i < 25; i++) {
+for (i = 0; i < 20; i++) {
 	var j = ((data['tokens'].length)-1)-i;
 	var tbl_row = "";
 	
@@ -86,6 +96,9 @@ for (i = 0; i < 25; i++) {
 		else if(k=='inputDt'){
 			tbl_row += "<td>"+ (getDateTime(v)) +"</td>";
 		}
+		else if(k=='inputDt6'){
+			tbl_row += "<td>"+ (getHour2(v)) +"</td>";
+		}
 		else{
 		tbl_row += "<td>"+v+"</td>";}
 	});
@@ -96,17 +109,17 @@ for (i = 0; i < 25; i++) {
 	//	selisih = ( selisih / (data['posts'][j]['balanceRaw'] ) ) * 100;
 	//}
 
-	tbl_row += "<td align='left' >"+ (selisih) +" % </td>";
+	//tbl_row += "<td align='left' >"+ (selisih) +" % </td>";
 	
 	tbl_row += "<td><a target='_BLANK' href='"
 		+'https://app.uniswap.org/#/swap?inputCurrency='
 		+data['tokens'][j].addressUniq
-		+"'>app.uniswap</a></td>";
+		+"'>APP</a></td>";
 		
 	tbl_row += "<td><a target='_BLANK' href='"
 		+'https://info.uniswap.org/token/'
 		+data['tokens'][j].addressUniq
-		+"'>info.uniswap</a></td>";
+		+"'>INFO</a></td>";
 		
 
 	tbl_body += "<tr class=\""+( odd_even ? "odd" : "even")+"\">"+tbl_row+"</tr>";
@@ -336,8 +349,9 @@ start();
 <td>
 <ul>
 	<li><a href="index.html">1</a>
-	<li><a href="index2.html">2</a>	
-	</li>
+    <li><a href="index2.html">2</a>	
+      <li><a href="index3.html">index3.html</a>	
+      </li>
 </ul>
 
 </tr>
