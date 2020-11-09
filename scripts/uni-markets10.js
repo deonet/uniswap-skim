@@ -50,11 +50,14 @@ async function getToken(arr){
 		token0Add
 	);
 
-	const name0 =  await token0contract.methods.name().call();
-	
-	console.log(arr);
+	let name0='noname';
+	try {
+		name0 =  await token0contract.methods.name().call();		
+	} catch (e) {		
+	}	
+	//console.log(arr);
+	//console.log(name0);
 
-	//console.log(name0)
 	arr['title'] =  name0 ;
 	let wib = new Date();wib.setHours(wib.getHours() + (7) );
 	arr['inputDt'] = wib.valueOf();
@@ -62,13 +65,13 @@ async function getToken(arr){
 	arr['inputDt3'] = new Date();
 	arr['inputDtUnix'] = new Date().valueOf();
 
-	console.log(arr);
+	//console.log(arr);
 	var rv = {};
 	Object.keys(arr).forEach(function (key) {
 		rv[key] = arr[key];
 		// do something with obj[key]
 	});
-	console.log(rv);	
+	//console.log(rv);	
 
 	db.read();
 
@@ -80,7 +83,7 @@ async function getToken(arr){
 		await db.get('tokens')
 		.push( rv  )
 		.write();
-		console.log( token0Add , rv.title) ;
+		console.log( token0Add , name0) ;
 	}else{
 		console.log('already @ ' , a1.inputDt2 + ' ' +  a1.title );
 	}
