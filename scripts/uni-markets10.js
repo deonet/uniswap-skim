@@ -138,6 +138,7 @@ const getPastLogs = async (address, fromBlock, toBlock) => {
 
 	} catch (error) {
 		console.log(error);
+		console.log(projectId,'projectId');
 	}
 
 	return arr2 ;
@@ -232,8 +233,15 @@ async function msg2(params) {
 	//console.log(params) ;
 
 	let blockNumber1 = 0 ;
-	const latest = await web3.eth.getBlockNumber() ;
-	console.log(latest,'latest getBlockNumber') ;
+	let latest = -1;
+
+	try {
+		latest = await web3.eth.getBlockNumber() ;
+		console.log(latest,'latest getBlockNumber') ;			
+	} catch (er) {
+		console.error(er);
+		console.log(student.projectId,'web3 fail');		
+	}
 
 	let fromBlock = latest - 500 ; // 11188003	
 	/**	
@@ -254,20 +262,22 @@ async function msg2(params) {
 	//console.log( blockNumber2 ,'' )
 	 * 
 	 */
-	
-	console.log( fromBlock ,'fromBlock / writeFile') ;
-	fs.writeFile('./logs/lastBlock.js', 
-	(fromBlock.toString()) , error => {
-		if (error) {
-			console.log(error);
-		}
-	});
+	if (latest !== -1) {
+		console.log( fromBlock ,'fromBlock / writeFile') ;
+		fs.writeFile('./logs/lastBlock.js', 
+		(fromBlock.toString()) , error => {
+			if (error) {
+				console.log(error);
+			}
+		});			
+	}
+
 }
   
 msg2({
 	address1:factoryAddress,
 }) ;
-msg(); // 🤡 lurks in the shadows <-- after 1 second
+//msg(); // 🤡 lurks in the shadows <-- after 1 second
 
   function timeConverter(UNIX_timestamp){
 	var a = new Date(UNIX_timestamp * 1000);
