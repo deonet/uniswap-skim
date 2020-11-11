@@ -243,7 +243,7 @@ async function msg2(params) {
 		console.log(student.projectId,'web3 fail');		
 	}
 
-	let fromBlock = latest - 500 ; // 11188003	
+	let fromBlock = latest - 100 ; // 11188003	
 	/**	
 	let toBlock = 'latest'  ;
 	let address = params.address1 ;
@@ -277,7 +277,7 @@ async function msg2(params) {
 msg2({
 	address1:factoryAddress,
 }) ;
-//msg(); // 🤡 lurks in the shadows <-- after 1 second
+msg(); // 🤡 lurks in the shadows <-- after 1 second
 
   function timeConverter(UNIX_timestamp){
 	var a = new Date(UNIX_timestamp * 1000);
