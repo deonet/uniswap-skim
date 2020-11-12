@@ -15,6 +15,25 @@ var posts = url.searchParams.get("posts");
 console.log(posts);
 
 $(document).ready(function(){
+  
+var jsonDb = [
+  "db2.json", 
+  "dbBuy2.json",
+  "dbSold.json",
+];
+let posts2 = [
+  "tokens", 
+  "posts",
+  "posts",
+];
+//console.log(jsonDb);
+posts2.forEach(function(item, index, array) {
+  var jsonDb2 = jsonDb[index];
+  console.log(jsonDb2);
+  console.log(item, index);
+  var url2 = "index3.html?a=1&b=3&db="+ jsonDb2 +"&posts="+ item +"&c=m2";
+  $("ul.menu").append('<li><a href="'+ url2 +'">'+ jsonDb2 +'</a> </li> ');
+});
 
 	var d = new Date();
   var n = d.getTime();
@@ -83,6 +102,7 @@ $.ajax({
 var tbl_row_head = "<th> </th>";
 $.each(data[posts][ ((data[posts].length)-2) ], function(k , v) {
 	if(k=='id'){}
+  else if(k=='logsBloom'){}
 	else{
 		tbl_row_head += "<th>"+k+"</th>";
 	}
@@ -102,6 +122,7 @@ for (i = 0; i < count2; i++) {
 	
 	$.each(data[posts][j], function(k , v) {
 		if(k=='id'){}
+		else if(k=='logsBloom'){}
 		else if(k=='inputDt'){
 			tbl_row += "<td>"+ (getDateTime(v)) +"</td>";
 		}
@@ -287,7 +308,6 @@ function clockRunning(){
 start();
 
 
-
 </script>
 
 
@@ -350,11 +370,13 @@ ul.menu li {
 <td> <output id="display-area">00:00:00.000</output>	
 <td>
 <ul class="menu">
+  <!--
 	<li><a href="index.html">1</a>
 	<li><a href="index2.html">2</a>	
 	<li><a href="index3.html?a=1&b=3&db=dbBuy2.json&posts=posts&c=m2-m3-m4-m5">3</a>	
 	<li><a href="index3.html?a=1&b=3&db=db2.json&posts=tokens&c=m2-m3-m4-m5">5</a>	
 	</li>
+  -->
 </ul>
 
 </tr>
