@@ -10,3 +10,4 @@ package-lock.json
 public/db2.json
 public/dbBuy2.json
 public/dbSold.json
+logs/lastBlock.js
