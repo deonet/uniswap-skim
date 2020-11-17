@@ -10,7 +10,7 @@ let student=JSON.parse(fs.readFileSync(
 //console.log(student);
 const projectId = student.projectId;
 
-const sleepSecond=60*1;
+const sleepSecond=60*59;
 
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');

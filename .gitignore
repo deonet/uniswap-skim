@@ -5,11 +5,8 @@ logs/.DS_Store
 scripts/.DS_Store
 scratch
 logs
-logs/lastBlock.js
 package-lock.json
 public/db2.json
 public/dbBuy2.json
 public/dbSold.json
-logs/lastBlock.js
-logs/lastBlock.js
 public/db2.json
