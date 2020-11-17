@@ -10,7 +10,7 @@ let student=JSON.parse(fs.readFileSync(
 //console.log(student);
 const projectId = student.projectId;
 
-const sleepSecond=60*59;
+const sleepSecond=60*1;
 
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
@@ -263,12 +263,13 @@ async function msg2(params) {
 	 * 
 	 */
 	if (latest !== -1) {
-		console.log( fromBlock ,'fromBlock / writeFile') ;
+		console.log( fromBlock ,'write this to lastBlock.js') ;
 		fs.writeFile('./logs/lastBlock.js', 
 		(fromBlock.toString()) , error => {
 			if (error) {
 				console.log(error);
 			}
+			msg();
 		});			
 	}
 
@@ -277,7 +278,7 @@ async function msg2(params) {
 msg2({
 	address1:factoryAddress,
 }) ;
-msg(); // 🤡 lurks in the shadows <-- after 1 second
+//msg(); // 🤡 lurks in the shadows <-- after 1 second
 
   function timeConverter(UNIX_timestamp){
 	var a = new Date(UNIX_timestamp * 1000);
