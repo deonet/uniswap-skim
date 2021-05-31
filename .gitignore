@@ -10,3 +10,5 @@ public/db2.json
 public/dbBuy2.json
 public/dbSold.json
 public/db2.json
+logs/lastBlock.js
+public/dbAppr.json
